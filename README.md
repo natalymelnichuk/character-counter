@@ -1,78 +1,34 @@
-# React + TypeScript + Vite
+# Character Counter Component
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple and responsive character, word, and reading time counter built with React, TypeScript, and Tailwind CSS. This project demonstrates data flow, state management, and clear component separation.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+* **Real-time Metrics:** Instant calculation of total characters, word count, and estimated reading time.
+* **Limit Validation:** Visual status indicator for word counts (highlights count in red if outside the 25–100 word range).
+* **Formatted Time Display:** Formats total reading time as `M:SS`.
 
-## React Compiler
+## 🛠️ Architecture & Data Flow
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+Built following the "Thinking in React" methodology with three core components:
 
-Note: This will impact Vite dev & build performances.
-You can also try [the experimental native React Compiler support in plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md#rust-react-compiler) by using `compiler: true` in the plugin options instead of using the Babel plugin.
+1. **`CharacterCounter.tsx` (State Manager / Parent)**
+   * Holds the central text state via `useState`.
+   * Executes statistic calculation logic (`calculateStats`).
+   * Passes data down through **props** and receives user events back via **callback functions**.
 
-## Expanding the ESLint configuration
+2. **`TextInput.tsx` (Input Layer / Child)**
+   * Presentational input component for user text entry.
+   * Emits input updates to the parent component using the `onTextChange` callback.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+3. **`StatsDisplay.tsx` (Presentation Layer / Child)**
+   * Displays calculated metrics (Characters, Words, Reading Time).
+   * Validates word count against bounds (`minWords={25}`, `maxWords={100}`) to dynamically apply styling.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 📐 Tech Stack
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+* **React** (Hooks, Props, Component Composition)
+* **TypeScript** (Strict typing for props and internal stats structures)
+* **Tailwind CSS** (Utility-first styling and layout)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 
-```
-
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
