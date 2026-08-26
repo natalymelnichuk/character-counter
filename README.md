@@ -2,6 +2,8 @@
 
 A simple and responsive character, word, and reading time counter built with React, TypeScript, and Tailwind CSS. This project demonstrates data flow, state management, and clear component separation.
 
+🔗 **Live Demo:** https://natalymelnichuk.github.io/character-counter/
+
 ## 🚀 Features
 
 * **Real-time Metrics:** Instant calculation of total characters, word count, and estimated reading time.
