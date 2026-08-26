@@ -2,9 +2,18 @@
 import React from 'react';
 import type { StatsDisplayProps } from '../types';
 
-export const StatsDisplay: React.FC<StatsDisplayProps> = ({
+interface ExtendedStatsProps extends StatsDisplayProps {
+  minWords?: number;
+  maxWords?: number;
+}
+
+
+export const StatsDisplay: React.FC<ExtendedStatsProps> = ({
     stats,
     showReadingTime = true,
+    minWords = 25,
+    maxWords = 100,
+    
     }) => {
 
     const formatReadingTime = (totalSeconds: number): string => {
@@ -15,31 +24,48 @@ export const StatsDisplay: React.FC<StatsDisplayProps> = ({
 
         return `${minutes}:${formattedSeconds}`;
     }
-    return (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-4">
-        
-        <div className="bg-gray-50 p-4 rounded-lg border border-gray-200 text-center">
-            <span className="block text-2xl font-bold text-gray-800">
-            {stats.wordCount}
-            </span>
-            <span className="text-sm text-gray-500">Words</span>
-        </div>
-        
-        <div className="bg-gray-50 p-4 rounded-lg border border-gray-200 text-center">
-            <span className="block text-2xl font-bold text-gray-800">
-            {stats.characterCount}
-            </span>
-            <span className="text-sm text-gray-500">Characters</span>
-        </div>
 
-        {showReadingTime && (
-            <div className="bg-gray-50 p-4 rounded-lg border border-gray-200 text-center">
-            <span className="block text-2xl font-bold text-gray-800">
-                {formatReadingTime(stats.readingTime)} min
-            </span>
-            <span className="text-sm text-gray-500">Reading Time</span>
+    const isWordCountValid =
+    stats.wordCount >= minWords && stats.wordCount <= maxWords;
+
+    return (
+        <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+            <div className="grid grid-cols-3 gap-4 text-center items-center">
+            
+                <div>
+                    <span className="block text-sm font-medium text-gray-400 mb-1">
+                    Characters
+                    </span>
+                    <span className="text-3xl font-bold text-gray-800">
+                        {stats.characterCount}
+                    </span>
+                </div>
+                
+                <div>
+                    <span className="block text-sm font-medium text-gray-400 mb-1">
+                        Words
+                    </span>
+                    <span
+                        className={`text-3xl font-bold ${
+                        isWordCountValid ? 'text-green-500' : 'text-red-500'
+                        }`}
+                    >
+                        {stats.wordCount}
+                    </span>
+                    <span className="block text-xs text-gray-400 mt-2">
+                        Min: {minWords} | Max: {maxWords}
+                    </span>
+                </div>
+
+                {showReadingTime && (
+                    <div>
+                        <span className="text-sm text-gray-500">Reading Time</span>
+                        <span className="block text-2xl font-bold text-gray-800">
+                            {formatReadingTime(stats.readingTime)} min
+                        </span>                        
+                    </div>
+                )}
             </div>
-        )}
         </div>
     );
 };

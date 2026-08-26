@@ -10,7 +10,7 @@ function App() {
             <h1 className="text-2xl font-bold mb-4 text-gray-800">
                 Character Counter
             </h1>
-            <CharacterCounter />
+            <CharacterCounter minWords={25} maxWords={100} />
         </div>
     );
 }

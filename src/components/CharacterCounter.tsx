@@ -5,7 +5,10 @@ import { TextInput } from './TextInput';
 import { StatsDisplay } from './StatsDisplay';
 
 
-export const CharacterCounter: React.FC<CharacterCounterProps> = () => {
+export const CharacterCounter: React.FC<CharacterCounterProps> = ({
+    minWords = 25,
+    maxWords = 100,
+}) => {
         const [text, setText] = useState('');
 
         const calculateStats = (rawText: string): TextStats => {
@@ -30,7 +33,11 @@ export const CharacterCounter: React.FC<CharacterCounterProps> = () => {
                 <TextInput onTextChange={(newText) => setText(newText)} />
 
 
-                <StatsDisplay stats={stats} />
+                <StatsDisplay 
+                    stats={stats}
+                    minWords={minWords}
+                    maxWords={maxWords} 
+                />
             </div>
         )
     }
